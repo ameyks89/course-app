@@ -20,6 +20,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table
 public class User implements Serializable {
 
 	/**
@@ -65,7 +66,7 @@ public class User implements Serializable {
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "registeredUsers")
-	private List<Course> courses = new ArrayList<Course>();
+	private List<Course> courses = new ArrayList<>();
 
 	@Override
 	public int hashCode() {

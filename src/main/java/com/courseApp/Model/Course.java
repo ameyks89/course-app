@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,9 +23,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "course")
 public class Course implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,13 +49,13 @@ public class Course implements Serializable {
 	}
 
 	@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToMany(fetch=FetchType.EAGER,cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinTable(name = "course_user", joinColumns = @JoinColumn(name = "courseId", referencedColumnName = "courseId"), inverseJoinColumns = @JoinColumn(name = "userId", referencedColumnName = "userId"))
-	private List<User> registeredUsers;
+	private List<User> registeredUsers = new ArrayList<>();
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-	private List<Topic> topics = new ArrayList<Topic>();
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "course", cascade = CascadeType.ALL)
+	private List<Topic> topics = new ArrayList<>();
 
 	@Override
 	public int hashCode() {
@@ -140,6 +138,14 @@ public class Course implements Serializable {
 
 	public void setRegisteredUsers(List<User> registeredUsers) {
 		this.registeredUsers = registeredUsers;
+	}
+
+	public List<Topic> getTopics() {
+		return topics;
+	}
+
+	public void setTopics(List<Topic> topics) {
+		this.topics = topics;
 	}
 
 	@Override

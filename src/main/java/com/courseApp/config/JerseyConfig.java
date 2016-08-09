@@ -5,6 +5,7 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
+import com.courseApp.RestController.CourseController;
 import com.courseApp.RestController.UserController;
 
 @Configuration
@@ -12,6 +13,7 @@ import com.courseApp.RestController.UserController;
 public class JerseyConfig extends ResourceConfig{
 	public JerseyConfig(){
 		register(UserController.class);
+		register(CourseController.class);
 	}
 
 }
